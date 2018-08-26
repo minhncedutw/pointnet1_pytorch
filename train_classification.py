@@ -17,11 +17,11 @@ from datasets import PartDataset
 from pointnet import PointNetCls
 import torch.nn.functional as F
 
-
+torch.multiprocessing.freeze_support()
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--batchSize', type=int, default=8, help='input batch size')
-parser.add_argument('--num_points', type=int, default=1024, help='input batch size')
+parser.add_argument('--batchSize', type=int, default=4, help='input batch size')
+parser.add_argument('--num_points', type=int, default=512, help='input batch size')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=1)
 parser.add_argument('--nepoch', type=int, default=25, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='DATA/cls',  help='output folder')
@@ -67,31 +67,35 @@ classifier.cuda()
 
 num_batch = len(dataset)/opt.batchSize
 
-for epoch in range(opt.nepoch):
-    for i, data in enumerate(dataloader, 0):
-        points, target = data
-        points, target = Variable(points), Variable(target[:,0])
-        points = points.transpose(2,1)
-        points, target = points.cuda(), target.cuda()
-        optimizer.zero_grad()
-        pred, _ = classifier(points)
-        loss = F.nll_loss(pred, target)
-        loss.backward()
-        optimizer.step()
-        pred_choice = pred.data.max(1)[1]
-        correct = pred_choice.eq(target.data).cpu().sum()
-        print('[%d: %d/%d] train loss: %f accuracy: %f' %(epoch, i, num_batch, loss.item(),correct.item() / float(opt.batchSize)))
-
-        if i % 10 == 0:
-            j, data = next(enumerate(testdataloader, 0))
+def run():
+    for epoch in range(opt.nepoch):
+        for i, data in enumerate(dataloader, 0):
             points, target = data
-            points, target = Variable(points), Variable(target[:,0])
-            points = points.transpose(2,1)
+            points, target = Variable(points), Variable(target[:, 0])
+            points = points.transpose(2, 1)
             points, target = points.cuda(), target.cuda()
+            optimizer.zero_grad()
             pred, _ = classifier(points)
             loss = F.nll_loss(pred, target)
+            loss.backward()
+            optimizer.step()
             pred_choice = pred.data.max(1)[1]
             correct = pred_choice.eq(target.data).cpu().sum()
-            print('[%d: %d/%d] %s loss: %f accuracy: %f' %(epoch, i, num_batch, blue('test'), loss.item(), correct.item()/float(opt.batchSize)))
+            print('[%d: %d/%d] train loss: %f accuracy: %f' % (epoch, i, num_batch, loss.item(), correct.item() / float(opt.batchSize)))
 
-    torch.save(classifier.state_dict(), '%s/cls_model_%d.pth' % (opt.outf, epoch))
+            if i % 10 == 0:
+                j, data = next(enumerate(testdataloader, 0))
+                points, target = data
+                points, target = Variable(points), Variable(target[:, 0])
+                points = points.transpose(2, 1)
+                points, target = points.cuda(), target.cuda()
+                pred, _ = classifier(points)
+                loss = F.nll_loss(pred, target)
+                pred_choice = pred.data.max(1)[1]
+                correct = pred_choice.eq(target.data).cpu().sum()
+                # print('[%d: %d/%d] %s loss: %f accuracy: %f' % (epoch, i, num_batch, blue('test'), loss.item(), correct.item() / float(opt.batchSize)))
+
+        torch.save(classifier.state_dict(), '%s/cls_model_%d.pth' % (opt.outf, epoch))
+
+if __name__ == '__main__':
+    run()
