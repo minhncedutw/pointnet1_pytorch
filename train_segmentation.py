@@ -13,7 +13,7 @@ import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 from torch.autograd import Variable
-from datasets import PartDataset
+from datasets2 import PartDataset
 from pointnet import PointNetDenseCls
 import torch.nn.functional as F
 
@@ -21,9 +21,9 @@ import torch.nn.functional as F
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batchSize', type=int, default=32, help='input batch size')
-parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
+parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
 parser.add_argument('--nepoch', type=int, default=25, help='number of epochs to train for')
-parser.add_argument('--outf', type=str, default='seg',  help='output folder')
+parser.add_argument('--outf', type=str, default='DATA/ARLab/seg',  help='output folder')
 parser.add_argument('--model', type=str, default = '',  help='model path')
 
 
@@ -35,11 +35,11 @@ print("Random Seed: ", opt.manualSeed)
 random.seed(opt.manualSeed)
 torch.manual_seed(opt.manualSeed)
 
-dataset = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = False, class_choice = ['Chair'])
+dataset = PartDataset(root = 'DATA/ARLab/objects', classification=False, class_choice=['pipe'])
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
-test_dataset = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', classification = False, class_choice = ['Chair'], train = False)
+test_dataset = PartDataset(root = 'DATA/ARLab/objects', classification=False, class_choice=['pipe'], train=False)
 testdataloader = torch.utils.data.DataLoader(test_dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
