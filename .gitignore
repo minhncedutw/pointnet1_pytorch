@@ -107,10 +107,6 @@ venv.bak/
 .idea
 
 # DATA
-DATA
-!DATA/*.py
-!DATA/*/*.py
-!DATA/ARLab/*.py
-!DATA/*.m
-!DATA/*/*.m
-!DATA/ARLab/*.m
+!DATA
+DATA/*
+!DATA/ARLab
