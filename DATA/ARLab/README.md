@@ -1,6 +1,6 @@
 # GUIDE USING ARLab DATA
 
-Step:
+Steps to get and process data:
 1. [Download data](https://drive.google.com/open?id=1uUTKn_eBatEp_jPBXjnCTVQ1nm96RacD)
 1. Open OBJECT_NAME/trfedPLY to open point cloud files by [MeshLab](http://www.meshlab.net/#download)
 1. Delete scene except object following [tutorial]() then export to OBJECT_NAME/segmented_ply folder
@@ -8,4 +8,5 @@ Step:
 1. Now convert *.ply files to *.pts files by [step2_plt2pts.m](). After this step we obtain: OBJECT_NAME/trfedPTS and OBJECT_NAME/segmented_pts
 1. from OBJECT_NAME/trfedPTS and OBJECT_NAME/segmented_pts, we get OBJECT_NAME/label by running [step3_pts2label.py]()
 
-
+Processed data:
+[Download at](https://drive.google.com/open?id=1U2bY3yeiYM911h_73UdS2GVuOFHCVJat)
