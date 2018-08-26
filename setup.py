@@ -7,7 +7,7 @@
 from setuptools import setup
 
 setup(
-    name = "fastai",
+    name = "pointnet",
     packages = ['fastai', 'fastai/models', 'fastai/models/cifar10'],
     version = '0.7.0',
     description = "The fastai deep learning and machine learning library.",
