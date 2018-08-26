@@ -1,4 +1,4 @@
-name: fastai
+name: pointnet
 channels:
 - fastai
 - pytorch
@@ -64,7 +64,7 @@ dependencies:
 - pygments
 - pyparsing
 - pyqt
-- python>=3.6.0
+- python=3.6
 - python-dateutil
 - pytz
 - pyzmq
@@ -88,7 +88,7 @@ dependencies:
 - widgetsnbextension
 - xz
 - zeromq
-- pytorch<0.4
+- pytorch
 - bcolz
 - prompt_toolkit
 - pytest
