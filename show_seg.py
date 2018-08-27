@@ -14,7 +14,7 @@ import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 from torch.autograd import Variable
-from datasets import PartDataset
+from datasets2 import PartDataset
 from pointnet import PointNetDenseCls
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
@@ -24,15 +24,16 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--model', type=str, default = '',  help='model path')
-parser.add_argument('--idx', type=int, default = 0,   help='model index')
+parser.add_argument('--model', type=str, default = 'DATA/ARLab/seg/seg_model_9.pth',  help='model path')
+parser.add_argument('--idx', type=int, default = 10,   help='model index')
 
 
 
 opt = parser.parse_args()
 print (opt)
-
-d = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', class_choice = ['Chair'], train = False)
+num_points = 2700
+# d = PartDataset(root = 'shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, class_choice = ['Chair'], train = False)
+d = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, class_choice = ['pipe'], train = False)
 
 idx = opt.idx
 
@@ -49,7 +50,7 @@ cmap = plt.cm.get_cmap("hsv", 10)
 cmap = np.array([cmap(i) for i in range(10)])[:,:3]
 gt = cmap[seg.numpy() - 1, :]
 
-classifier = PointNetDenseCls(k = 4)
+classifier = PointNetDenseCls(num_points=num_points, k = 2)
 classifier.load_state_dict(torch.load(opt.model))
 classifier.eval()
 
