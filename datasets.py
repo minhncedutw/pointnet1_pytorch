@@ -55,7 +55,6 @@ class PartDataset(data.Dataset):
             for fn in self.meta[item]:
                 self.datapath.append((item, fn[0], fn[1]))
 
-
         self.classes = dict(zip(sorted(self.cat), range(len(self.cat))))
         print(self.classes)
         self.num_seg_classes = 0
@@ -78,6 +77,7 @@ class PartDataset(data.Dataset):
         #resample
         point_set = point_set[choice, :]
         seg = seg[choice]
+        seg = seg + 1
         point_set = torch.from_numpy(point_set)
         seg = torch.from_numpy(seg)
         cls = torch.from_numpy(np.array([cls]).astype(np.int64))
