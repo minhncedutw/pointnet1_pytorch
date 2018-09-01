@@ -37,14 +37,14 @@ random.seed(opt.manualSeed)
 torch.manual_seed(opt.manualSeed)
 num_points = 2700
 # dataset = PartDataset(root = 'washington_sceen_segmentation', classification = False, class_choice = ['Chair'])
-# dataset = PartDataset(root = 'DATA/shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, classification = False, class_choice = ['Chair'])
-dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['pipe'])
+# dataset = PartDataset(root = 'DATA/shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, classification = False, class_choice = ['Airplane'])
+dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['airplane'])
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
 # test_dataset = PartDataset(root = 'washington_sceen_segmentation', classification = False, class_choice = ['Chair'], train = False)
-# test_dataset = PartDataset(root = 'DATA/shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, classification = False, class_choice = ['Chair'], train = False)
-test_dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['pipe'])
+# test_dataset = PartDataset(root = 'DATA/shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, classification = False, class_choice = ['Airplane'], train = False)
+test_dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['airplane'])
 testdataloader = torch.utils.data.DataLoader(test_dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 

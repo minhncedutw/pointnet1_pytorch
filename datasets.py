@@ -13,7 +13,7 @@ import sys
 import torchvision.transforms as transforms
 import argparse
 import json
-
+import math
 
 class PartDataset(data.Dataset):
     def __init__(self, root, npoints = 2500, classification = False, class_choice = None, train = True):
@@ -59,7 +59,7 @@ class PartDataset(data.Dataset):
         print(self.classes)
         self.num_seg_classes = 0
         if not self.classification:
-            for i in range(len(self.datapath)//50):
+            for i in range(math.ceil(len(self.datapath)/50)):
                 l = len(np.unique(np.loadtxt(self.datapath[i][-1]).astype(np.uint8)))
                 if l > self.num_seg_classes:
                     self.num_seg_classes = l

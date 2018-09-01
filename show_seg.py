@@ -24,8 +24,8 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--model', type=str, default = 'DATA/ARLab/seg/seg_model_9.pth',  help='model path')
-parser.add_argument('--idx', type=int, default = 10,   help='model index')
+parser.add_argument('--model', type=str, default = 'DATA/ARLab/seg/seg_model_7.pth',  help='model path')
+parser.add_argument('--idx', type=int, default = 0,   help='model index')
 
 
 
