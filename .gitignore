@@ -110,3 +110,4 @@ venv.bak/
 !DATA
 DATA/*
 !DATA/ARLab
+!DATA/Shapenet

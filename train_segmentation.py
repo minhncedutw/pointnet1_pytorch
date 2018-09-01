@@ -13,7 +13,7 @@ import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 from torch.autograd import Variable
-from datasets import PartDataset
+from DATA.ARLab.arlab_dataloader import PartDataset
 # from datasets_washington import PartDataset
 from pointnet import PointNetDenseCls
 import torch.nn.functional as F
@@ -21,8 +21,8 @@ import torch.nn.functional as F
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--batchSize', type=int, default=32, help='input batch size')
-parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
+parser.add_argument('--batchSize', type=int, default=8, help='input batch size')
+parser.add_argument('--workers', type=int, help='number of data loading workers', default=0) # Notice on Ubuntu, number worker should be 4; but on Windows, number worker HAVE TO be 0
 parser.add_argument('--nepoch', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='DATA/ARLab/seg',  help='output folder')
 parser.add_argument('--model', type=str, default = '',  help='model path')
@@ -38,13 +38,13 @@ torch.manual_seed(opt.manualSeed)
 num_points = 2700
 # dataset = PartDataset(root = 'washington_sceen_segmentation', classification = False, class_choice = ['Chair'])
 # dataset = PartDataset(root = 'DATA/shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, classification = False, class_choice = ['Airplane'])
-dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['airplane'])
+dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['pipe'])
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
 # test_dataset = PartDataset(root = 'washington_sceen_segmentation', classification = False, class_choice = ['Chair'], train = False)
 # test_dataset = PartDataset(root = 'DATA/shapenetcore_partanno_segmentation_benchmark_v0', npoints=num_points, classification = False, class_choice = ['Airplane'], train = False)
-test_dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['airplane'])
+test_dataset = PartDataset(root = 'DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['pipe'])
 testdataloader = torch.utils.data.DataLoader(test_dataset, batch_size=opt.batchSize,
                                           shuffle=True, num_workers=int(opt.workers))
 
