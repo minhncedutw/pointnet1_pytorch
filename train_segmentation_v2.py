@@ -61,12 +61,18 @@ torch.manual_seed(opt.manualSeed)
 def main(argv=None):
     print('Hello! This is XXXXXX Program')
 
-    num_points = 2700
+    num_points = 2048
     dataset = PartDataset(root='DATA/ARLab/objects', npoints=num_points, classification=False, class_choice=['pipe'])
-    dataloader = DataLoader(dataset, batch_size=opt.batchSize, shuffle=False, num_workers=int(opt.workers))
+    dataloader = torch.utils.data.DataLoader(dataset, batch_size=opt.batchSize, shuffle=False,
+                                             num_workers=int(opt.workers))
+    fastai_dataloader = DataLoader(dataset, batch_size=opt.batchSize, shuffle=False, num_workers=int(opt.workers))
 
-    for i, data in enumerate(dataloader.get_batch(0), 0):
+    batch = next(iter(fastai_dataloader))
+    print(batch)
+
+    for i, data in enumerate(fastai_dataloader, 0):
         points, target = data
+        print(points.shape, target.shape)
         break
 
 

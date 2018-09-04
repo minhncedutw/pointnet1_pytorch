@@ -14,7 +14,7 @@ import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 from torch.autograd import Variable
-from datasets import PartDataset
+from DATA.ARLab.arlab_dataloader import PartDataset
 from pointnet import PointNetDenseCls
 import torch.nn.functional as F
 import matplotlib.pyplot as plt

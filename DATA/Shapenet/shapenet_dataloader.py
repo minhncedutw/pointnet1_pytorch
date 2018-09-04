@@ -103,10 +103,7 @@ class PartDataset(data.Dataset):
         #resample
         point_set = point_set[choice, :]
         seg = seg[choice]
-        seg = seg
-        point_set = torch.from_numpy(point_set)
-        seg = torch.from_numpy(seg)
-        cls = torch.from_numpy(np.array([cls]).astype(np.int64))
+
         if self.classification:
             return point_set, cls
         else:
