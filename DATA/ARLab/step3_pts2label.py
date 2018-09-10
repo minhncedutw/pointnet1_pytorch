@@ -46,9 +46,9 @@ import numpy as np
 def main(argv=None):
     print('Hello! This is Label-from-Point-Cloud Program')
 
-    scene_directory = './pipe/trfedPTS'
-    object_directory = './pipe/segmented_pts'
-    label_directory = './pipe/label'
+    scene_directory = './objects/pipe/scenePTS'
+    object_directory = './objects/pipe/SEGMENTEDPTS2'
+    label_directory = './objects/pipe/label'
     if not os.path.exists(label_directory):
         os.makedirs(label_directory)
 
@@ -67,7 +67,14 @@ def main(argv=None):
         # label = [np.equal(scene_points[i], object_points).all(1).any() for i in range(len(scene_points))] # similar way to get label
 
         # Save label
-        np.savetxt(fname=label_directory + '/' + os.path.splitext(scene_names[idx])[0] + '.seg', X=label, fmt='%d')
+        saving_file_path = label_directory + '/' + os.path.splitext(scene_names[idx])[0] + '.seg'
+        print(saving_file_path)
+        if not os.path.exists(saving_file_path):
+            np.savetxt(fname=saving_file_path, X=label, fmt='%d')
+        else:
+            old_label = np.loadtxt(saving_file_path).astype(np.int)
+            label = old_label + label
+            np.savetxt(fname=saving_file_path, X=label, fmt='%d')
 
 
 if __name__ == '__main__':
