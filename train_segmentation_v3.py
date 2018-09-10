@@ -39,7 +39,7 @@ from pointnet import PointNetDenseCls
 # Constant Definitions
 #==============================================================================
 parser = argparse.ArgumentParser()
-parser.add_argument('--directory', type=int, default='DATA/ARLab/objects', help='data directory')
+parser.add_argument('--directory', type=str, default='DATA/ARLab/objects', help='data directory')
 parser.add_argument('--num_points', type=int, default=2048, help='number of input points')
 parser.add_argument('--batchSize', type=int, default=8, help='input batch size')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0) # Notice on Ubuntu, number worker should be 4; but on Windows, number worker HAVE TO be 0

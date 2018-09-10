@@ -38,7 +38,7 @@ from pointnet import PointNetDenseCls
 # Constant Definitions
 #==============================================================================
 parser = argparse.ArgumentParser()
-parser.add_argument('--batchSize', type=int, default=8, help='input batch size')
+parser.add_argument('--batchSize', type=int, default=4, help='input batch size')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0) # Notice on Ubuntu, number worker should be 4; but on Windows, number worker HAVE TO be 0
 parser.add_argument('--nepoch', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='DATA/ARLab/seg',  help='output folder')
@@ -91,6 +91,7 @@ def main(argv=None):
             points = points.transpose(2, 1)
             points, target = points.cuda(), target.cuda()
             optimizer.zero_grad()
+            print(points.shape)
             pred, _ = classifier(points)
             pred = pred.view(-1, num_classes)
             target = target.view(-1, 1)[:, 0] - 1

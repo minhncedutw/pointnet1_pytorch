@@ -94,6 +94,7 @@ class PartDataset(data.Dataset):
 
     def __getitem__(self, index):
         fn = self.datapath[index]
+        print(fn)
         cls = self.classes[self.datapath[index][0]]
         point_set = np.loadtxt(fn[1]).astype(np.float32)
         seg = np.loadtxt(fn[2]).astype(np.int64)

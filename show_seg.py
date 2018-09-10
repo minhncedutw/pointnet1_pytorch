@@ -40,6 +40,8 @@ idx = opt.idx
 print("model %d/%d" %( idx, len(d)))
 
 point, seg = d[idx]
+point = torch.from_numpy(point)
+seg = torch.from_numpy(seg)
 print(point.size(), seg.size())
 
 point_np = point.numpy()
@@ -50,7 +52,7 @@ cmap = plt.cm.get_cmap("hsv", 10)
 cmap = np.array([cmap(i) for i in range(10)])[:,:3]
 gt = cmap[seg.numpy() - 1, :]
 
-classifier = PointNetDenseCls(num_points=num_points, k = 2)
+classifier = PointNetDenseCls(num_points=num_points, k = 3)
 classifier.load_state_dict(torch.load(opt.model))
 classifier.eval()
 
