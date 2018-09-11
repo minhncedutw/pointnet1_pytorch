@@ -45,10 +45,10 @@ seg = torch.from_numpy(seg)
 print(point.size(), seg.size())
 
 point_np = point.numpy()
+point_np[:, 2] *= -1
 
 
-
-cmap = plt.cm.get_cmap("hsv", 10)
+cmap = plt.cm.get_cmap("hsv", 5)
 cmap = np.array([cmap(i) for i in range(10)])[:,:3]
 gt = cmap[seg.numpy() - 1, :]
 
@@ -67,5 +67,5 @@ print(pred_choice)
 pred_color = cmap[pred_choice.numpy()[0], :]
 
 #print(pred_color.shape)
-showpoints(point_np, gt, pred_color)
+showpoints(xyz=point_np, c_gt=gt, c_pred=pred_color, ballradius=5)
 

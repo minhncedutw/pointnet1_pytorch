@@ -67,9 +67,9 @@ class PartDataset(data.Dataset):
             #print(dir_point, dir_seg)
             fns = sorted(os.listdir(dir_point))
             if train:
-                fns = fns[:int(len(fns) * 0.9)]
+                fns = fns[:int(len(fns) * 0.8)]
             else:
-                fns = fns[int(len(fns) * 0.9):]
+                fns = fns[int(len(fns) * 0.8):]
 
             #print(os.path.basename(fns))
             for fn in fns:
