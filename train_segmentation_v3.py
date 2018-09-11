@@ -41,14 +41,14 @@ from pointnet import PointNetDenseCls
 parser = argparse.ArgumentParser()
 parser.add_argument('--directory', type=str, default='DATA/ARLab/objects', help='data directory')
 parser.add_argument('--num_points', type=int, default=2048, help='number of input points')
-parser.add_argument('--batchSize', type=int, default=8, help='input batch size')
-parser.add_argument('--workers', type=int, help='number of data loading workers', default=0) # Notice on Ubuntu, number worker should be 4; but on Windows, number worker HAVE TO be 0
-parser.add_argument('--nepoch', type=int, default=10, help='number of epochs to train for')
-parser.add_argument('--outf', type=str, default='DATA/ARLab/seg',  help='output folder')
-parser.add_argument('--model', type=str, default = '',  help='model path')
+parser.add_argument('--batch_size', type=int, default=8, help='input batch size')
+parser.add_argument('--num_workers', type=int, help='number of data loading workers', default=0) # Notice on Ubuntu, number worker should be 4; but on Windows, number worker HAVE TO be 0
+parser.add_argument('--num_epoch', type=int, default=10, help='number of epochs to train for')
+parser.add_argument('--out_file', type=str, default='DATA/ARLab/seg',  help='output folder')
+parser.add_argument('--model_path', type=str, default = '',  help='model path')
 
 opt = parser.parse_args()
-print (opt)
+print(opt)
 
 opt.manualSeed = random.randint(1, 10000) # fix seed
 print("Random Seed: ", opt.manualSeed)
@@ -91,16 +91,25 @@ def get_learner(arch, bs):
 def main(argv=None):
     print('Hello! This is XXXXXX Program')
 
-    dataset = PartDataset(root='DATA/ARLab/objects', npoints=opt.num_points, classification=False, class_choice=['pipe'])
-    num_classes = dataset.num_seg_classes
+    trn_ds = PartDataset(root=opt.directory, npoints=opt.num_points, classification=False, class_choice=['pipe'])
+    val_ds = PartDataset(root=opt.directory, npoints=opt.num_points, classification=False, class_choice=['pipe'], train=False)
+    num_classes = trn_ds.num_seg_classes
+
+    trn_dl = DataLoader(trn_ds, batch_size=opt.batch_size, shuffle=True, num_workers=0, pin_memory=True)
+    val_dl = DataLoader(val_ds, batch_size=32, shuffle=False, num_workers=0, pin_memory=True)
+
+    data = ModelData(opt.directory, trn_dl, val_dl)
 
     classifier = PointNetDenseCls(num_points=opt.num_points, k=num_classes)
 
-    learn = get_learner(classifier, 32)
+    learn = ConvLearner.from_model_data(classifier.cuda(), data=data)
+    learn.crit = nn.CrossEntropyLoss()
+    learn.metrics = [accuracy]
+
     learn.clip = 1e-1
     learn.fit(1.5, 1, wds=1e-4, cycle_len=20, use_clr_beta=(12, 15, 0.95, 0.85))
 
-
+    preds, targs = learn.TTA()
 
 
 if __name__ == '__main__':
