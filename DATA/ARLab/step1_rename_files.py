@@ -7,9 +7,6 @@ folder_path = 'objects/pipe/segmentedPTS1'
 saving_folder_path = folder_path
 saving_ext = '.pts'
 
-# if not os.path.exists(saving_folder_path):
-#     os.makedirs(saving_folder_path)
-
 file_paths = glob.glob(folder_path + '/' + '*.pts')
 
 for (i, file_path) in enumerate(file_paths):
