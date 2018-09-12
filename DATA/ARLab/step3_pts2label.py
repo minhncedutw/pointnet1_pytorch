@@ -47,7 +47,7 @@ def main(argv=None):
     print('Hello! This is Label-from-Point-Cloud Program')
 
     scene_directory = './objects/pipe/scenePTS'
-    object_directory = './objects/pipe/SEGMENTEDPTS2'
+    object_directory = './objects/pipe/segmentedPTS2'
     label_directory = './objects/pipe/label'
     if not os.path.exists(label_directory):
         os.makedirs(label_directory)

@@ -4,8 +4,8 @@ import numpy as np
 from mayavi import mlab
 from plyfile import PlyData, PlyElement
 
-folder_path = 'objects/pipe/segmentedPLY2'
-saving_folder_path = 'objects/pipe/segmentedPTS2'
+folder_path = 'objects/pipe/scenePLY'
+saving_folder_path = 'objects/pipe/scenePTS'
 saving_ext = '.pts'
 
 if not os.path.exists(saving_folder_path):
