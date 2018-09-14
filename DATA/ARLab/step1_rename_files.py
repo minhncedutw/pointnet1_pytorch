@@ -3,7 +3,7 @@ import glob
 import numpy as np
 import shutil
 
-folder_path = 'objects/pipe/segmentedPLY2'
+folder_path = 'objects/tools/ply_wrench'
 saving_folder_path = folder_path
 file_ext = '.ply'
 
@@ -16,5 +16,5 @@ for (i, file_path) in enumerate(file_paths):
     saving_file_path = saving_folder_path + '/' + name[1:] + file_ext
 
     # os.rename(file_path, saving_file_path)
-    # shutil.move(file_path, saving_file_path)
-    shutil.copy(file_path, saving_file_path)
+    shutil.move(file_path, saving_file_path)
+    # shutil.copy(file_path, saving_file_path)

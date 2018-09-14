@@ -4,8 +4,8 @@ import numpy as np
 from mayavi import mlab
 from plyfile import PlyData, PlyElement
 
-folder_path = 'objects/pipe/scenePLY'
-saving_folder_path = 'objects/pipe/scenePTS'
+folder_path = 'objects/tools/ply_wrench'
+saving_folder_path = 'objects/tools/pts_wrench'
 saving_ext = '.pts'
 
 if not os.path.exists(saving_folder_path):
@@ -24,3 +24,4 @@ for (i, file_path) in enumerate(file_paths):
         xyz = (plydata['vertex']['x'], plydata['vertex']['y'], plydata['vertex']['z'])
         xyz = np.array(xyz).transpose()
         np.savetxt(fname=saving_file_path, X=xyz, fmt='%f')
+        print(file_name + ' Done')
